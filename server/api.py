@@ -1,16 +1,11 @@
 import os
-import re
 import sys
 import pickle
 
 import pandas as pd
 
-from flask import Flask
-from flask import request
-from flask import jsonify
-
 from dotenv import load_dotenv
-
+from flask import Flask, request, jsonify
 from utils.process_text import processText
 
 _ = load_dotenv()
@@ -43,7 +38,6 @@ def classifyProducts():
     with open(VECTORIZER_PATH, 'rb') as f:
         vectorizer = pickle.load(f) 
         f.close()
-
 
     with open(LABEL_ENC_PATH, 'rb') as f:
         le = pickle.load(f) 
