@@ -25,6 +25,9 @@ RUN apt-get update -y -qq && xargs -ra packages.txt apt-get install -y -qq
 ADD requirements.txt .
 RUN pip install -r requirements.txt
 
+# Install spaCy PT tool
+RUN python -m spacy download pt_core_news_sm
+
 # Add all other files to the container
 ADD . .
 
