@@ -1,18 +1,13 @@
 import os
 import sys
-import pickle
 
 import pandas as pd
 
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
-from utils.process_text import processText
 
-_ = load_dotenv()
-
-MODEL_PATH = os.getenv("MODEL_PATH")
-VECTORIZER_PATH = os.getenv("VECTORIZER_PATH")
-LABEL_ENC_PATH = os.getenv("LABEL_ENC_PATH")
+from utils.load_utils import load_utils
+from utils.process_text import process_text
 
 app = Flask(__name__)
 
@@ -27,21 +22,10 @@ def classifyProducts():
     except:
         return {"Message": "Unsupported input!"}, 400
 
+    (model, vectorizer, le) = load_utils()
+
     products = [product['title'] for i, product in enumerate(content['products'])]
-
-    process_products = processText(pd.Series(products))
-
-    with open(MODEL_PATH, 'rb') as f:
-        model = pickle.load(f)
-        f.close()
-
-    with open(VECTORIZER_PATH, 'rb') as f:
-        vectorizer = pickle.load(f) 
-        f.close()
-
-    with open(LABEL_ENC_PATH, 'rb') as f:
-        le = pickle.load(f) 
-        f.close()
+    process_products = process_text(pd.Series(products))
 
     proc_prods = vectorizer.transform(process_products)
 
