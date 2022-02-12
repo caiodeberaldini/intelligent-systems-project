@@ -19,7 +19,7 @@ with open('/usr/src/data/stop_words.txt', 'r') as f:
 
 nlp = spacy.load('pt_core_news_sm')
 
-def processText(df_column, stop_words=pt_br_stop_words, lemma_dict=nlp):
+def process_text(df_column, stop_words=pt_br_stop_words, lemma_dict=nlp):
 
     # Disable case sensitivity
     df_column = df_column.apply(
